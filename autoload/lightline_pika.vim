@@ -51,12 +51,10 @@ endfunction
 function! s:update_fugitive() abort
   let b:lightline_fugitive = ''
   try
-    if !strlen(s:get_special_mode())
-      if exists('*gitbranch#name')
-        let b:lightline_fugitive = gitbranch#name()
-      elseif exists('*fugitive#head')
-        let b:lightline_fugitive = fugitive#head()
-      endif
+    if exists('*gitbranch#name')
+      let b:lightline_fugitive = gitbranch#name()
+    elseif exists('*fugitive#head')
+      let b:lightline_fugitive = fugitive#head()
     endif
   catch
   endtry
@@ -64,7 +62,7 @@ endfunction
 
 augroup LightLinePika
   autocmd!
-  autocmd VimEnter,BufEnter,Bufread * call <SID>update_fugitive()
+  autocmd BufEnter,BufRead,BufWrite * call <SID>update_fugitive()
 augroup END
 
 function! lightline_pika#filename() abort
@@ -96,6 +94,9 @@ endfunction
 function! lightline_pika#fugitive() abort
   if !has_key(b:, 'lightline_fugitive')
     call lightline_pika#update_fugitive()
+  endif
+  if strlen(s:get_special_mode())
+    return ''
   endif
   return b:lightline_fugitive
 endfunction
