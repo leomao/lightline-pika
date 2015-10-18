@@ -33,7 +33,7 @@ let s:sub_fn = {
       \ '^\[preview': 'Preview',
       \ }
 
-function s:get_special_mode() abort
+function! s:get_special_mode() abort
   let f = expand('%:t')
   let special = get(s:ft_mode, &ft, get(s:fn_mode, f, ''))
   if strlen(special)
