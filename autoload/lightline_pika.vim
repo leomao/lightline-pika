@@ -7,7 +7,13 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+let s:branch = ''
 let s:ro = 'RO'
+
+if exists('g:lightline_pika_patchfont')
+  let s:branch = get(g:lightline_pika_patchfont, 'branch', '')
+  let s:ro = get(g:lightline_pika_patchfont, 'readonly', '')
+endif
 
 let s:ft_mode = {
       \ 'qf': 'QuickFix',
@@ -52,9 +58,12 @@ function! s:update_fugitive() abort
   let b:lightline_fugitive = ''
   try
     if exists('*gitbranch#name')
-      let b:lightline_fugitive = gitbranch#name()
+      let _ = gitbranch#name()
     elseif exists('*fugitive#head')
-      let b:lightline_fugitive = fugitive#head()
+      let _ = fugitive#head()
+    endif
+    if strlen(_)
+      let b:lightline_fugitive = s:branch . _
     endif
   catch
   endtry

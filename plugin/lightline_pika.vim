@@ -4,7 +4,8 @@
 " Lightline settings used in pika-vim
 " https://github.com/leomao/pika-vim
 
-if exists('g:loaded_lightline_pika') || v:version < 700
+if exists('g:loaded_lightline_pika') || exists('g:disable_lightline_pika')
+  || v:version < 700
   finish
 endif
 let g:loaded_lightline_pika = 1
@@ -12,14 +13,16 @@ let g:loaded_lightline_pika = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
+let s:lineinfo = '%3l:%-2c'
+
 let g:lightline = extend(get(g:, 'lightline', {}), {
       \ 'colorscheme': 'pika',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive'], [ 'filename' ] ],
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive' ], [ 'filename' ] ],
       \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
       \ 'inactive': {
-      \   'left': [ [ 'filename' ] ],
+      \   'left': [ [ 'readonly', 'filename', 'modified' ] ],
       \   'right': [ [ 'lineinfo' ], [ 'percent' ] ]
       \ },
       \ 'tabline': {
@@ -31,7 +34,7 @@ let g:lightline = extend(get(g:, 'lightline', {}), {
       \   'inactive': [ 'tabnum', 'readonly', 'filename', 'modified' ]
       \ },
       \ 'component': {
-      \   'lineinfo': '%3l:%-2c',
+      \   'lineinfo': s:lineinfo,
       \ },
       \ 'component_function': {
       \   'mode': 'lightline_pika#mode',
@@ -42,6 +45,17 @@ let g:lightline = extend(get(g:, 'lightline', {}), {
       \   'fileencoding': 'lightline_pika#fileencoding',
       \ },
       \ }, 'keep')
+
+if exists('g:lightline_pika_patchfont')
+  let g:lightline.separator = {
+        \ 'left': get(g:lightline_pika_patchfont, 'leftsep', ''),
+        \ 'right': get(g:lightline_pika_patchfont, 'rightsep', '') }
+  let g:lightline.subseparator = {
+        \ 'left': get(g:lightline_pika_patchfont, 'leftsubsep', '|'),
+        \ 'right': get(g:lightline_pika_patchfont, 'rightsubsep', '|') }
+  let g:lightline.component.lineinfo =
+        \ get(g:lightline_pika_patchfont, 'linecolumn', '') . s:lineinfo
+endif
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
