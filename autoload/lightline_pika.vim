@@ -93,7 +93,7 @@ endfunction
 
 function! lightline_pika#fugitive() abort
   if !has_key(b:, 'lightline_fugitive')
-    call lightline_pika#update_fugitive()
+    call s:update_fugitive()
   endif
   if strlen(s:get_special_mode())
     return ''
