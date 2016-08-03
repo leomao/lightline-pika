@@ -16,7 +16,6 @@ set cpo&vim
 let s:lineinfo = '%3l:%-2c'
 
 let g:lightline = extend(get(g:, 'lightline', {}), {
-      \ 'colorscheme': 'pika',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], [ 'fugitive' ], [ 'filename' ] ],
       \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
