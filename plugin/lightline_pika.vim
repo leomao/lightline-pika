@@ -4,8 +4,7 @@
 " Lightline settings used in pika-vim
 " https://github.com/leomao/pika-vim
 
-if exists('g:loaded_lightline_pika') || exists('g:disable_lightline_pika')
-  || v:version < 700
+if exists('g:loaded_lightline_pika') || exists('g:disable_lightline_pika') || v:version < 700
   finish
 endif
 let g:loaded_lightline_pika = 1
