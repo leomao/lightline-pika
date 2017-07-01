@@ -76,7 +76,7 @@ augroup END
 
 function! lightline_pika#filename() abort
   let special = s:get_special_mode()
-  let f = expand('%:t')
+  let f = fnamemodify(expand("%"), ":~:.")
   if strlen(special)
     return eval(get(s:mode_fn, special, '""'))
   endif
